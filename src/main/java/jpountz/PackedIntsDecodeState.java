@@ -22,6 +22,8 @@ public class PackedIntsDecodeState {
 
   private FileChannel channel;
   ByteBuffer input;
+  int base;
+  byte[] exceptions;
 
   byte[] tmpBytes;
   int[] tmpInts;
@@ -30,29 +32,35 @@ public class PackedIntsDecodeState {
   int[] outputInts;
   long[] outputLongs;
 
-  @Param({ "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" , "13", "14", "15", "16" })
+  @Param({ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" , "13", "14", "15", "16" })
   int bitsPerValue;
 
-  @Param({"LE", "BE"})
-  String byteOrder;
+  @Param({ "0", "1", "2", "3", "4", "5", "6", "7" })
+  int exceptionCount;
 
   @Setup(Level.Trial)
   public void setupTrial() throws IOException {
     Path path = Files.createTempFile("PackedIntsDecodeState", ".bench");
     try (FileChannel channel = FileChannel.open(path, StandardOpenOption.APPEND, StandardOpenOption.WRITE)) {
       byte[] data = new byte[128 * Integer.BYTES];
-      new Random(0).nextBytes(data);
+      exceptions = new byte[exceptionCount * 2];
+      Random random = new Random(0);
+      random.nextBytes(data);
+      base = random.nextInt(32000); // make sure this is small enough we won't overflow
+      if (exceptionCount > 0) {
+        byte[] exceptionBytes = new byte[exceptionCount];
+        random.nextBytes(exceptionBytes);
+        for (int i = 0; i < exceptionCount; i++) {
+          byte pos = (byte) random.nextInt(128);
+          exceptions[i * 2] = pos;
+          exceptions[i * 2 + 1] = exceptionBytes[i];
+        }
+      }
       channel.write(ByteBuffer.wrap(data));
     }
     channel = FileChannel.open(path, StandardOpenOption.READ);
     input = channel.map(MapMode.READ_ONLY, 0, 128 * Integer.BYTES);
-    if ("BE".equals(byteOrder)) {
-      input.order(ByteOrder.BIG_ENDIAN);
-    } else if ("LE".equals(byteOrder)) {
-      input.order(ByteOrder.LITTLE_ENDIAN);
-    } else {
-      throw new IllegalArgumentException();
-    }
+    input.order(ByteOrder.LITTLE_ENDIAN);
 
     // Some of these arrays are larger than 128 because some decoders need some padding bytes.
     tmpBytes = new byte[128 * Integer.BYTES];
