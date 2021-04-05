@@ -1,7 +1,8 @@
 Compare decoding and computing prefix sums using a standard FOR encoding with optimized prefix application to
 a PFOR encoding that should have some performance hit due to applying exceptions.
 
-* forDeltaDecoder: The ForDeltaUtil decoding logic currently used in Lucene
+* forDeltaDecoder: The ForDeltaUtil decoding logic currently used in Lucene. NOTE that exceptionCount
+  should have no impact here since it doesn't do anything with exceptions.
 * pForDeltaDecoder: A candidate PFOR version of prefix sum decoding being discussed in LUCENE-9850
 
 ```
