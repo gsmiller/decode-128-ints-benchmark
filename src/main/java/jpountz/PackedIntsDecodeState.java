@@ -32,11 +32,14 @@ public class PackedIntsDecodeState {
   int[] outputInts;
   long[] outputLongs;
 
-  @Param({ "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12" , "13", "14", "15", "16" })
+  @Param({ "0" })
   int bitsPerValue;
 
-  @Param({ "0", "1", "2", "3", "4", "5", "6", "7" })
+  @Param({ "0" })
   int exceptionCount;
+
+  @Param({ "1", "2" })
+  int sameVal;
 
   @Setup(Level.Trial)
   public void setupTrial() throws IOException {

@@ -16,7 +16,7 @@ import org.openjdk.jmh.infra.Blackhole;
 @Fork(1)
 public class PackedIntsDeltaDecodeBenchmark {
 
-  @Benchmark
+  //@Benchmark
   public void forDeltaDecoder(PackedIntsDecodeState state, Blackhole bh) throws IOException {
     ForDeltaDecoder decoder = new ForDeltaDecoder(new ForUtil());
     decoder.decodeAndPrefixSum(state.bitsPerValue, state.input, state.base, state.outputLongs);
@@ -26,7 +26,7 @@ public class PackedIntsDeltaDecodeBenchmark {
   @Benchmark
   public void pForDeltaDecoder(PackedIntsDecodeState state, Blackhole bh) throws  IOException {
     PForDeltaDecoder decoder = new PForDeltaDecoder(new ForUtil());
-    decoder.decodeAndPrefixSum(state.bitsPerValue, state.input, state.exceptions, 1, state.base, state.outputLongs);
+    decoder.decodeAndPrefixSum(state.bitsPerValue, state.input, state.exceptions, state.sameVal, state.base, state.outputLongs);
     bh.consume(state.outputLongs);
   }
 }

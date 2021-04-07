@@ -26,7 +26,7 @@ final class PForDeltaDecoder {
 
     private static void prefixSumOf(long val, long[] arr, long base) {
         for (int i = 0; i < ForUtil.BLOCK_SIZE; i++) {
-            arr[i] = (i + 1) * val + base;
+            arr[i] = IDENTITY_PLUS_ONE[i] * val + base;
         }
     }
 
