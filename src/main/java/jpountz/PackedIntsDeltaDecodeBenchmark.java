@@ -12,7 +12,7 @@ import org.openjdk.jmh.infra.Blackhole;
 
 @OutputTimeUnit(TimeUnit.MICROSECONDS)
 @Warmup(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
-@Measurement(iterations = 50, time = 5, timeUnit = TimeUnit.SECONDS)
+@Measurement(iterations = 5, time = 1, timeUnit = TimeUnit.SECONDS)
 @Fork(1)
 public class PackedIntsDeltaDecodeBenchmark {
 
