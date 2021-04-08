@@ -25,6 +25,12 @@ final class PForDeltaDecoder {
     }
 
     private static void prefixSumOf(long val, long[] arr, long base) {
+        for (int i = 0; i < ForUtil.BLOCK_SIZE; i++) {
+            arr[i] = IDENTITY_PLUS_ONE[i] * val + base;
+        }
+    }
+
+    private static void prefixSumOfVectorized(long val, long[] arr, long base) {
         System.arraycopy(IDENTITY_PLUS_ONE, 0, arr, 0, ForUtil.BLOCK_SIZE);
         for (int i = 0; i < ForUtil.BLOCK_SIZE; i++) {
             arr[i] *= val;
@@ -43,14 +49,18 @@ final class PForDeltaDecoder {
     }
 
     /** Decode deltas, compute the prefix sum and add {@code base} to all decoded longs. */
-    void decodeAndPrefixSum(int bitsPerValue, ByteBuffer in, byte[] exceptions, long sameVal, long base, long[] longs) throws IOException {
+    void decodeAndPrefixSum(int bitsPerValue, ByteBuffer in, byte[] exceptions, long sameVal, long base, long[] longs, boolean vec) throws IOException {
         if (exceptions.length == 0) {
             // handle the zero-exception case very similarly to ForDeltaUtil
             if (bitsPerValue == 0) {
                 if (sameVal == 1) {
                     prefixSumOfOnes(longs, base);
                 } else {
-                    prefixSumOf(sameVal, longs, base);
+                    if (vec) {
+                        prefixSumOfVectorized(sameVal, longs, base);
+                    } else {
+                        prefixSumOf(sameVal, longs, base);
+                    }
                 }
             } else {
                 forUtil.decodeAndPrefixSum(bitsPerValue, in, base, longs);
