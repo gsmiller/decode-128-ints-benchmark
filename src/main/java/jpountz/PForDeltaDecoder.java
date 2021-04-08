@@ -24,6 +24,12 @@ final class PForDeltaDecoder {
         }
     }
 
+    private static void prefixSumOfNoArrayRef(long val, long[] arr, long base) {
+        for (int i = 0; i < arr.length; ++i) {
+            arr[i] = (i + 1) * val + base;
+        }
+    }
+
     private static void prefixSumOf(long val, long[] arr, long base) {
         for (int i = 0; i < arr.length; ++i) {
             arr[i] = IDENTITY_PLUS_ONE[i] * val + base;
@@ -49,14 +55,18 @@ final class PForDeltaDecoder {
     }
 
     /** Decode deltas, compute the prefix sum and add {@code base} to all decoded longs. */
-    void decodeAndPrefixSum(int bitsPerValue, ByteBuffer in, byte[] exceptions, long sameVal, long base, long[] longs) throws IOException {
+    void decodeAndPrefixSum(int bitsPerValue, ByteBuffer in, byte[] exceptions, long sameVal, long base, long[] longs, boolean arrayRef) throws IOException {
         if (exceptions.length == 0) {
             // handle the zero-exception case very similarly to ForDeltaUtil
             if (bitsPerValue == 0) {
                 if (sameVal == 1) {
                     prefixSumOfOnes(longs, base);
                 } else {
-                    prefixSumOf(sameVal, longs, base);
+                    if (arrayRef) {
+                        prefixSumOf(sameVal, longs, base);
+                    } else {
+                        prefixSumOfNoArrayRef(sameVal, longs, base);
+                    }
                 }
             } else {
                 forUtil.decodeAndPrefixSum(bitsPerValue, in, base, longs);

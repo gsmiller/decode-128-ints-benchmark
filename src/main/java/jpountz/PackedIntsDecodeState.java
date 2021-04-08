@@ -38,8 +38,11 @@ public class PackedIntsDecodeState {
   @Param({ "0" })
   int exceptionCount;
 
-  @Param({ "1", "2" })
+  @Param({ "2" })
   int sameVal;
+
+  @Param({ "0", "1" })
+  int arrayRef;
 
   @Setup(Level.Trial)
   public void setupTrial() throws IOException {

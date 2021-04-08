@@ -26,7 +26,7 @@ public class PackedIntsDeltaDecodeBenchmark {
   @Benchmark
   public void pForDeltaDecoder(PackedIntsDecodeState state, Blackhole bh) throws  IOException {
     PForDeltaDecoder decoder = new PForDeltaDecoder(new ForUtil());
-    decoder.decodeAndPrefixSum(state.bitsPerValue, state.input, state.exceptions, state.sameVal, state.base, state.outputLongs);
+    decoder.decodeAndPrefixSum(state.bitsPerValue, state.input, state.exceptions, state.sameVal, state.base, state.outputLongs, state.arrayRef == 1);
     bh.consume(state.outputLongs);
   }
 }
