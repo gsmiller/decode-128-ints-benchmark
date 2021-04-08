@@ -38,6 +38,9 @@ public class PackedIntsDecodeState {
   @Param({ "0", "1", "2", "3", "4", "5", "6", "7" })
   int exceptionCount;
 
+  @Param({ "1" })
+  int sameVal;
+
   @Setup(Level.Trial)
   public void setupTrial() throws IOException {
     Path path = Files.createTempFile("PackedIntsDecodeState", ".bench");
@@ -62,13 +65,7 @@ public class PackedIntsDecodeState {
     input = channel.map(MapMode.READ_ONLY, 0, 128 * Integer.BYTES);
     input.order(ByteOrder.LITTLE_ENDIAN);
 
-    // Some of these arrays are larger than 128 because some decoders need some padding bytes.
-    tmpBytes = new byte[128 * Integer.BYTES];
-    tmpInts = new int[256];
-    tmpLongs = new long[256];
-
-    outputInts = new int[256];
-    outputLongs = new long[256];
+    outputLongs = new long[129];
   }
 
   @Setup(Level.Invocation)
