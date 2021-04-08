@@ -30,7 +30,7 @@ final class PForDeltaDecoder {
         }
     }
 
-    private static void prefixSumOfVectorized(long val, long[] arr, long base) {
+    private static void prefixSumOfTwoLoops(long val, long[] arr, long base) {
         System.arraycopy(IDENTITY_PLUS_ONE, 0, arr, 0, ForUtil.BLOCK_SIZE);
         for (int i = 0; i < ForUtil.BLOCK_SIZE; i++) {
             arr[i] *= val;
@@ -56,7 +56,7 @@ final class PForDeltaDecoder {
                 if (sameVal == 1) {
                     prefixSumOfOnes(longs, base);
                 } else {
-                    prefixSumOf(sameVal, longs, base);
+                    prefixSumOfTwoLoops(sameVal, longs, base);
                 }
             } else {
                 forUtil.decodeAndPrefixSum(bitsPerValue, in, base, longs);
