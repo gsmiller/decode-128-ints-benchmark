@@ -41,8 +41,8 @@ public class PackedIntsDecodeState {
   @Param({ "1", "2" })
   int sameVal;
 
-  @Param({ "0", "1" })
-  int twoLoops;
+//  @Param({ "0", "1" })
+//  int twoLoops;
 
   @Setup(Level.Trial)
   public void setupTrial() throws IOException {

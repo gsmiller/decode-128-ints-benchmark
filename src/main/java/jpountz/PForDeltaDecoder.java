@@ -49,18 +49,14 @@ final class PForDeltaDecoder {
     }
 
     /** Decode deltas, compute the prefix sum and add {@code base} to all decoded longs. */
-    void decodeAndPrefixSum(int bitsPerValue, ByteBuffer in, byte[] exceptions, long sameVal, long base, long[] longs, boolean vec) throws IOException {
+    void decodeAndPrefixSum(int bitsPerValue, ByteBuffer in, byte[] exceptions, long sameVal, long base, long[] longs) throws IOException {
         if (exceptions.length == 0) {
             // handle the zero-exception case very similarly to ForDeltaUtil
             if (bitsPerValue == 0) {
                 if (sameVal == 1) {
                     prefixSumOfOnes(longs, base);
                 } else {
-                    if (vec) {
-                        prefixSumOfVectorized(sameVal, longs, base);
-                    } else {
-                        prefixSumOf(sameVal, longs, base);
-                    }
+                    prefixSumOf(sameVal, longs, base);
                 }
             } else {
                 forUtil.decodeAndPrefixSum(bitsPerValue, in, base, longs);
