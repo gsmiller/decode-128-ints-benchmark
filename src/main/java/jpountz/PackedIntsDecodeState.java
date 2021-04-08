@@ -38,7 +38,7 @@ public class PackedIntsDecodeState {
   @Param({ "0" })
   int exceptionCount;
 
-  @Param({ "2" })
+  @Param({ "1", "2" })
   int sameVal;
 
   @Param({ "0", "1" })
