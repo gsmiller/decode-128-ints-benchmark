@@ -71,7 +71,7 @@ public class PackedIntsDecodeState {
     tmpLongs = new long[256];
 
     outputInts = new int[256];
-    outputLongs = new long[129];
+    outputLongs = new long[128];
   }
 
   @Setup(Level.Invocation)

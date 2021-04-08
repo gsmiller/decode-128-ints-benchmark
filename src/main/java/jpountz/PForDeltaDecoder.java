@@ -19,23 +19,23 @@ final class PForDeltaDecoder {
     private static void prefixSumOfOnes(long[] arr, long base) {
         System.arraycopy(IDENTITY_PLUS_ONE, 0, arr, 0, ForUtil.BLOCK_SIZE);
         // This loop gets auto-vectorized
-        for (int i = 0; i < ForUtil.BLOCK_SIZE; ++i) {
+        for (int i = 0; i < arr.length; ++i) {
             arr[i] += base;
         }
     }
 
     private static void prefixSumOf(long val, long[] arr, long base) {
-        for (int i = 0; i < arr.length - 1; ++i) {
+        for (int i = 0; i < arr.length; ++i) {
             arr[i] = IDENTITY_PLUS_ONE[i] * val + base;
         }
     }
 
     private static void prefixSumOfTwoLoops(long val, long[] arr, long base) {
         System.arraycopy(IDENTITY_PLUS_ONE, 0, arr, 0, ForUtil.BLOCK_SIZE);
-        for (int i = 0; i < arr.length - 1; ++i) {
+        for (int i = 0; i < arr.length; ++i) {
             arr[i] *= val;
         }
-        for (int i = 0; i < arr.length - 1; ++i) {
+        for (int i = 0; i < arr.length; ++i) {
             arr[i] += base;
         }
     }
