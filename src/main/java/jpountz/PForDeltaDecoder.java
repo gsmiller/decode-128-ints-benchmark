@@ -56,7 +56,7 @@ final class PForDeltaDecoder {
                 if (sameVal == 1) {
                     prefixSumOfOnes(longs, base);
                 } else {
-                    prefixSumOfTwoLoops(sameVal, longs, base);
+                    prefixSumOf(sameVal, longs, base);
                 }
             } else {
                 forUtil.decodeAndPrefixSum(bitsPerValue, in, base, longs);

@@ -1,0 +1,495 @@
+# JMH version: 1.22
+# VM version: JDK 11.0.10, OpenJDK 64-Bit Server VM, 11.0.10+9-LTS
+# VM invoker: /local/jdk-11/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: jpountz.PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder
+# Parameters: (bitsPerValue = 0, exceptionCount = 0, sameVal = 1)
+
+# Run progress: 0.00% complete, ETA 00:00:20
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler 
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 5.468 ops/us
+# Warmup Iteration   2: 6.759 ops/us
+# Warmup Iteration   3: 4.591 ops/us
+# Warmup Iteration   4: 8.200 ops/us
+# Warmup Iteration   5: 8.833 ops/us
+Iteration   1: 8.838 ops/us
+Iteration   2: 8.844 ops/us
+Iteration   3: 8.820 ops/us
+Iteration   4: 8.817 ops/us
+Iteration   5: 8.824 ops/us
+# Processing profiler results: LinuxPerfAsmProfiler 
+
+
+Result "jpountz.PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder":
+  8.829 ±(99.9%) 0.045 ops/us [Average]
+  (min, avg, max) = (8.817, 8.829, 8.844), stdev = 0.012
+  CI (99.9%): [8.783, 8.874] (assumes normal distribution)
+
+Secondary result "jpountz.PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder:·asm":
+PrintAssembly processed: 320120 total address lines.
+Perf output processed (skipped 10.096 seconds):
+ Column 1: cycles (5378 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+runtime stub, StubRoutines::jlong_disjoint_arraycopy (121 bytes) 
+
+              StubRoutines::jlong_disjoint_arraycopy [0x00007f534fdd0f60, 0x00007f534fdd0fda[ (122 bytes)
+  0.19%         0x00007f534fdd0f60: push   %rbp
+  0.04%         0x00007f534fdd0f61: mov    %rsp,%rbp
+  0.15%         0x00007f534fdd0f64: lea    -0x8(%rdi,%rdx,8),%rdi
+  0.02%         0x00007f534fdd0f69: lea    -0x8(%rsi,%rdx,8),%rcx
+  0.04%         0x00007f534fdd0f6e: neg    %rdx
+  0.02%  ╭      0x00007f534fdd0f71: jmpq   Stub::jlong_disjoint_arraycopy+72 0x00007f534fdd0fa8
+         │↗  ↗  0x00007f534fdd0f76: mov    0x8(%rdi,%rdx,8),%rax
+         ││  │  0x00007f534fdd0f7b: mov    %rax,0x8(%rcx,%rdx,8)
+         ││  │  0x00007f534fdd0f80: inc    %rdx
+         │╰  │  0x00007f534fdd0f83: jne    Stub::jlong_disjoint_arraycopy+22 0x00007f534fdd0f76
+         │   │  0x00007f534fdd0f85: xor    %rax,%rax
+         │   │  0x00007f534fdd0f88: vzeroupper 
+         │   │  0x00007f534fdd0f8b: leaveq 
+         │   │  0x00007f534fdd0f8c: retq   
+         │   │  0x00007f534fdd0f8d: data16 xchg %ax,%ax
+  1.00%  │ ↗ │  0x00007f534fdd0f90: vmovdqu -0x38(%rdi,%rdx,8),%ymm0
+  0.87%  │ │ │  0x00007f534fdd0f96: vmovdqu %ymm0,-0x38(%rcx,%rdx,8)
+ 18.20%  │ │ │  0x00007f534fdd0f9c: vmovdqu -0x18(%rdi,%rdx,8),%ymm1
+  0.74%  │ │ │  0x00007f534fdd0fa2: vmovdqu %ymm1,-0x18(%rcx,%rdx,8)
+  1.00%  ↘ │ │  0x00007f534fdd0fa8: add    $0x8,%rdx
+           ╰ │  0x00007f534fdd0fac: jle    Stub::jlong_disjoint_arraycopy+48 0x00007f534fdd0f90
+             │  0x00007f534fdd0fae: sub    $0x4,%rdx
+            ╭│  0x00007f534fdd0fb2: jg     Stub::jlong_disjoint_arraycopy+100 0x00007f534fdd0fc4
+            ││  0x00007f534fdd0fb4: vmovdqu -0x18(%rdi,%rdx,8),%ymm0
+            ││  0x00007f534fdd0fba: vmovdqu %ymm0,-0x18(%rcx,%rdx,8)
+            ││  0x00007f534fdd0fc0: add    $0x4,%rdx
+            ↘│  0x00007f534fdd0fc4: vpxor  %ymm0,%ymm0,%ymm0
+  0.20%      │  0x00007f534fdd0fc8: vpxor  %ymm1,%ymm1,%ymm1
+             │  0x00007f534fdd0fcc: sub    $0x4,%rdx
+             ╰  0x00007f534fdd0fd0: jl     Stub::jlong_disjoint_arraycopy+22 0x00007f534fdd0f76
+                0x00007f534fdd0fd2: vzeroupper 
+  0.28%         0x00007f534fdd0fd5: xor    %rax,%rax
+                0x00007f534fdd0fd8: leaveq 
+  0.17%         0x00007f534fdd0fd9: retq   
+              StubRoutines::jlong_arraycopy [0x00007f534fdd0fe0, 0x00007f534fdd1066[ (134 bytes)
+....................................................................................................
+ 22.93%  <total for region 1>
+
+....[Hottest Region 2]..............................................................................
+ [vdso], [unknown] (63 bytes) 
+
+ <no assembly is recorded, native region>
+....................................................................................................
+ 19.58%  <total for region 2>
+
+....[Hottest Region 3]..............................................................................
+c2, level 4, jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (167 bytes) 
+
+           0x00007f5357a0518e: mov    %rax,%r10
+           0x00007f5357a05191: add    $0x10,%r10
+  0.17%    0x00007f5357a05195: cmp    0x128(%r15),%r10
+           0x00007f5357a0519c: jae    0x00007f5357a054ca  ;*putfield tmp {reexecute=0 rethrow=0 return_oop=0}
+                                                         ; - jpountz.ForUtil::&lt;init&gt;@9 (line 184)
+                                                         ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@8 (line 28)
+                                                         ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+           0x00007f5357a051a2: mov    %r10,0x118(%r15)
+           0x00007f5357a051a9: prefetchw 0xc0(%r10)
+           0x00007f5357a051b1: movq   $0x1,(%rax)
+  0.22%    0x00007f5357a051b8: movl   $0x162e98,0x8(%rax)  ;   {metadata(&apos;jpountz/ForUtil&apos;)}
+           0x00007f5357a051bf: movl   $0x0,0xc(%rax)     ;*new {reexecute=0 rethrow=0 return_oop=0}
+                                                         ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@4 (line 28)
+                                                         ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.02%    0x00007f5357a051c6: mov    %rax,0x50(%rsp)
+           0x00007f5357a051cb: mov    0x118(%r15),%r8
+  0.07%    0x00007f5357a051d2: mov    %r8,%r10
+           0x00007f5357a051d5: add    $0x210,%r10
+           0x00007f5357a051dc: cmp    0x128(%r15),%r10
+           0x00007f5357a051e3: jae    0x00007f5357a054ed  ;*putfield tmp {reexecute=0 rethrow=0 return_oop=0}
+                                                         ; - jpountz.ForUtil::&lt;init&gt;@9 (line 184)
+                                                         ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@8 (line 28)
+                                                         ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+           0x00007f5357a051e9: mov    %r10,0x118(%r15)
+  0.11%    0x00007f5357a051f0: prefetchw 0xc0(%r10)
+  0.67%    0x00007f5357a051f8: movq   $0x1,(%r8)
+           0x00007f5357a051ff: prefetchw 0x100(%r10)
+  0.32%    0x00007f5357a05207: movl   $0xe08,0x8(%r8)    ;   {metadata({type array long})}
+  0.15%    0x00007f5357a0520f: prefetchw 0x140(%r10)
+  0.17%    0x00007f5357a05217: prefetchw 0x180(%r10)
+  0.15%    0x00007f5357a0521f: movl   $0x40,0xc(%r8)
+           0x00007f5357a05227: mov    %r8,%rdi
+  0.13%    0x00007f5357a0522a: add    $0x10,%rdi
+  0.02%    0x00007f5357a0522e: mov    $0x40,%ecx
+  0.02%    0x00007f5357a05233: xor    %rax,%rax
+           0x00007f5357a05236: shl    $0x3,%rcx
+  6.47%    0x00007f5357a0523a: rep rex.W stos %al,%es:(%rdi)  ;*newarray {reexecute=0 rethrow=0 return_oop=0}
+                                                         ; - jpountz.ForUtil::&lt;init&gt;@7 (line 184)
+                                                         ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@8 (line 28)
+                                                         ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  1.41%    0x00007f5357a0523d: mov    0x50(%rsp),%r10
+  0.06%    0x00007f5357a05242: mov    %r10,%r11
+           0x00007f5357a05245: mov    %r8,%r10
+  0.24%    0x00007f5357a05248: shr    $0x3,%r10
+  0.04%    0x00007f5357a0524c: mov    0x50(%rsp),%r9
+           0x00007f5357a05251: mov    %r10d,0xc(%r9)
+           0x00007f5357a05255: mov    %r8,%r10
+  0.17%    0x00007f5357a05258: xor    %r11,%r10
+           0x00007f5357a0525b: shr    $0x16,%r10
+  0.02%    0x00007f5357a0525f: test   %r10,%r10
+           0x00007f5357a05262: je     0x00007f5357a052ba
+           0x00007f5357a05264: shr    $0x9,%r11
+           0x00007f5357a05268: movabs $0x7f5340410000,%rdi
+           0x00007f5357a05272: add    %r11,%rdi
+           0x00007f5357a05275: cmpb   $0x20,(%rdi)
+           0x00007f5357a05278: je     0x00007f5357a052ba
+           0x00007f5357a0527a: mov    0x80(%r15),%r10
+           0x00007f5357a05281: mov    0x70(%r15),%r11
+           0x00007f5357a05285: lock addl $0x0,-0x40(%rsp)
+           0x00007f5357a0528b: cmpb   $0x0,(%rdi)
+....................................................................................................
+ 10.45%  <total for region 3>
+
+....[Hottest Regions]...............................................................................
+ 22.93%        runtime stub  StubRoutines::jlong_disjoint_arraycopy (121 bytes) 
+ 19.58%              [vdso]  [unknown] (63 bytes) 
+ 10.45%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (167 bytes) 
+  9.85%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (503 bytes) 
+  5.11%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (115 bytes) 
+  4.95%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (66 bytes) 
+  4.95%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (148 bytes) 
+  3.68%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (50 bytes) 
+  3.64%   [kernel.kallsyms]  native_write_msr (0 bytes) 
+  2.40%        libc-2.26.so  __clock_gettime (75 bytes) 
+  2.25%              [vdso]  __vdso_clock_gettime (55 bytes) 
+  1.58%              [vdso]  [unknown] (48 bytes) 
+  1.30%           libjvm.so  os::javaTimeNanos (44 bytes) 
+  0.99%         c2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 1367 (75 bytes) 
+  0.65%              [vdso]  [unknown] (8 bytes) 
+  0.60%           libjvm.so  SpinPause (7 bytes) 
+  0.26%   [kernel.kallsyms]  native_queued_spin_lock_slowpath (16 bytes) 
+  0.15%   [kernel.kallsyms]  entry_SYSCALL_64 (9 bytes) 
+  0.15%           libjvm.so  G1ScanRSForRegionClosure::scan_rem_set_roots (5 bytes) 
+  0.13%   [kernel.kallsyms]  syscall_return_via_sysret (0 bytes) 
+  4.41%  <...other 158 warm regions...>
+....................................................................................................
+100.00%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 38.99%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 
+ 22.93%        runtime stub  StubRoutines::jlong_disjoint_arraycopy 
+ 21.81%              [vdso]  [unknown] 
+  3.64%   [kernel.kallsyms]  native_write_msr 
+  2.40%        libc-2.26.so  __clock_gettime 
+  2.25%              [vdso]  __vdso_clock_gettime 
+  1.30%           libjvm.so  os::javaTimeNanos 
+  0.99%         c2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 1367 
+  0.60%           libjvm.so  SpinPause 
+  0.26%   [kernel.kallsyms]  native_queued_spin_lock_slowpath 
+  0.24%           libjvm.so  G1ScanRSForRegionClosure::scan_rem_set_roots 
+  0.22%   [kernel.kallsyms]  finish_task_switch 
+  0.15%   [kernel.kallsyms]  entry_SYSCALL_64 
+  0.15%           libjvm.so  G1ScanRSForRegionClosure::do_heap_region 
+  0.13%   [kernel.kallsyms]  syscall_return_via_sysret 
+  0.13%           libjvm.so  fileStream::write 
+  0.13%           libjvm.so  G1ParEvacuateFollowersClosure::do_void 
+  0.11%           libjvm.so  ParallelTaskTerminator::offer_termination 
+  0.11%           libjvm.so  GenericTaskQueueSet<OverflowTaskQueue<StarTask, (MemoryType)5, 131072u>, (MemoryType)5>::peek 
+  0.09%   [kernel.kallsyms]  free_pcppages_bulk 
+  3.37%  <...other 127 warm methods...>
+....................................................................................................
+100.00%  <totals>
+
+....[Distribution by Source]........................................................................
+ 39.98%         c2, level 4
+ 24.06%              [vdso]
+ 22.93%        runtime stub
+  6.15%   [kernel.kallsyms]
+  3.87%           libjvm.so
+  2.64%        libc-2.26.so
+  0.11%  libpthread-2.26.so
+  0.06%             ext4.ko
+  0.06%         interpreter
+  0.04%      hsdis-amd64.so
+  0.02%                    
+  0.02%             jbd2.ko
+  0.02%         c1, level 3
+  0.02%          ld-2.26.so
+  0.02%       libdl-2.26.so
+  0.02%      perf-22573.map
+....................................................................................................
+100.00%  <totals>
+
+
+
+# JMH version: 1.22
+# VM version: JDK 11.0.10, OpenJDK 64-Bit Server VM, 11.0.10+9-LTS
+# VM invoker: /local/jdk-11/bin/java
+# VM options: <none>
+# Warmup: 5 iterations, 1 s each
+# Measurement: 5 iterations, 1 s each
+# Timeout: 10 min per iteration
+# Threads: 1 thread, will synchronize iterations
+# Benchmark mode: Throughput, ops/time
+# Benchmark: jpountz.PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder
+# Parameters: (bitsPerValue = 0, exceptionCount = 0, sameVal = 2)
+
+# Run progress: 50.00% complete, ETA 00:00:17
+# Fork: 1 of 1
+# Preparing profilers: LinuxPerfAsmProfiler 
+# Profilers consume stdout and stderr from target VM, use -v EXTRA to copy to console
+# Warmup Iteration   1: 4.498 ops/us
+# Warmup Iteration   2: 5.679 ops/us
+# Warmup Iteration   3: 4.116 ops/us
+# Warmup Iteration   4: 6.878 ops/us
+# Warmup Iteration   5: 6.767 ops/us
+Iteration   1: 7.194 ops/us
+Iteration   2: 7.193 ops/us
+Iteration   3: 7.186 ops/us
+Iteration   4: 7.187 ops/us
+Iteration   5: 7.064 ops/us
+# Processing profiler results: LinuxPerfAsmProfiler 
+
+
+Result "jpountz.PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder":
+  7.165 ±(99.9%) 0.217 ops/us [Average]
+  (min, avg, max) = (7.064, 7.165, 7.194), stdev = 0.056
+  CI (99.9%): [6.948, 7.382] (assumes normal distribution)
+
+Secondary result "jpountz.PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder:·asm":
+PrintAssembly processed: 315539 total address lines.
+Perf output processed (skipped 9.951 seconds):
+ Column 1: cycles (5346 events)
+
+Hottest code regions (>10.00% "cycles" events):
+
+....[Hottest Region 1]..............................................................................
+c2, level 4, jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (324 bytes) 
+
+              0x00007f37dfa02b3f: movb   $0x0,(%rdi)
+              0x00007f37dfa02b42: test   %r10,%r10
+         ╭    0x00007f37dfa02b45: jne    0x00007f37dfa02b59
+         │    0x00007f37dfa02b47: mov    %r15,%rsi
+         │    0x00007f37dfa02b4a: movabs $0x7f37f7dc23d0,%r10
+         │    0x00007f37dfa02b54: callq  *%r10
+         │╭   0x00007f37dfa02b57: jmp    0x00007f37dfa02b66
+         ↘│   0x00007f37dfa02b59: mov    %rdi,-0x8(%r11,%r10,1)
+          │   0x00007f37dfa02b5e: add    $0xfffffffffffffff8,%r10
+          │   0x00007f37dfa02b62: mov    %r10,0x70(%r15)
+  0.06%   ↘   0x00007f37dfa02b66: mov    0x118(%r15),%rax
+              0x00007f37dfa02b6d: mov    %rax,%r10
+              0x00007f37dfa02b70: add    $0x20,%r10
+              0x00007f37dfa02b74: cmp    0x128(%r15),%r10
+              0x00007f37dfa02b7b: jae    0x00007f37dfa02d0c  ;*putfield tmp {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.ForUtil::&lt;init&gt;@9 (line 184)
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@8 (line 28)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.13%       0x00007f37dfa02b81: mov    %r10,0x118(%r15)
+  0.02%       0x00007f37dfa02b88: prefetchw 0xc0(%r10)
+  0.04%       0x00007f37dfa02b90: movq   $0x1,(%rax)
+              0x00007f37dfa02b97: prefetchw 0x100(%r10)
+  0.21%       0x00007f37dfa02b9f: movl   $0x820,0x8(%rax)   ;   {metadata({type array byte})}
+              0x00007f37dfa02ba6: prefetchw 0x140(%r10)
+              0x00007f37dfa02bae: prefetchw 0x180(%r10)
+  0.02%       0x00007f37dfa02bb6: movl   $0xe,0xc(%rax)
+  0.24%       0x00007f37dfa02bbd: movq   $0x0,0x10(%rax)
+  0.02%       0x00007f37dfa02bc5: movq   $0x0,0x18(%rax)    ;*invokespecial &lt;init&gt; {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@11 (line 28)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.02%       0x00007f37dfa02bcd: mov    0x20(%rsp),%r10
+  0.02%       0x00007f37dfa02bd2: mov    0x24(%r10),%edi    ;*getfield exceptions {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@25 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.15%       0x00007f37dfa02bd6: mov    0xc(%r12,%rdi,8),%ebx  ;*arraylength {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@1 (line 53)
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+                                                            ; implicit exception: dispatches to 0x00007f37dfa031d8
+  0.06%       0x00007f37dfa02bdb: mov    0x20(%r10),%r10d   ;*getfield input {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@21 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.02%       0x00007f37dfa02bdf: mov    0x20(%rsp),%r11
+              0x00007f37dfa02be4: mov    0x10(%r11),%r8d    ;*getfield bitsPerValue {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@17 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.22%       0x00007f37dfa02be8: mov    0x18(%r11),%esi    ;*getfield sameVal {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@29 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.02%       0x00007f37dfa02bec: mov    0x38(%r11),%r11d   ;*getfield outputLongs {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@39 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+              0x00007f37dfa02bf0: movslq %esi,%r9           ;*i2l {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@32 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+              0x00007f37dfa02bf3: mov    0x20(%rsp),%rcx
+  0.17%       0x00007f37dfa02bf8: movslq 0xc(%rcx),%rcx     ;*i2l {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@37 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.02%       0x00007f37dfa02bfc: test   %ebx,%ebx
+              0x00007f37dfa02bfe: ja     0x00007f37dfa02fcc  ;*ifne {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@2 (line 53)
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+              0x00007f37dfa02c04: test   %r8d,%r8d
+              0x00007f37dfa02c07: jne    0x00007f37dfa02e44  ;*ifne {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@6 (line 55)
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.02%       0x00007f37dfa02c0d: cmp    $0x1,%esi
+              0x00007f37dfa02c10: je     0x00007f37dfa03058  ;*ifne {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@13 (line 56)
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.13%       0x00007f37dfa02c16: mov    0xc(%r12,%r11,8),%r8d  ; implicit exception: dispatches to 0x00007f37dfa02d98
+  0.11%       0x00007f37dfa02c1b: test   %r8d,%r8d
+              0x00007f37dfa02c1e: jbe    0x00007f37dfa02d98
+              0x00007f37dfa02c24: cmp    $0x7f,%r8d
+              0x00007f37dfa02c28: jbe    0x00007f37dfa02d98
+              0x00007f37dfa02c2e: mov    %r9,%r10
+  0.15%       0x00007f37dfa02c31: movabs $0xd2816340,%r8    ;   {oop([J{0x00000000d2816340})}
+  0.02%       0x00007f37dfa02c3b: imul   0x10(%r8),%r10
+  0.02%       0x00007f37dfa02c40: add    %rcx,%r10
+  0.02%       0x00007f37dfa02c43: mov    %r10,0x10(%r12,%r11,8)  ;*lastore {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PForDeltaDecoder::prefixSumOf@24 (line 29)
+                                                            ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@32 (line 59)
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.09%       0x00007f37dfa02c48: lea    (%r12,%r11,8),%rbx
+  0.04%       0x00007f37dfa02c4c: mov    $0x1,%r10d         ;*aload_2 {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PForDeltaDecoder::prefixSumOf@11 (line 29)
+                                                            ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@32 (line 59)
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.45%    ↗  0x00007f37dfa02c52: mov    %r9,%r8
+  0.30%    │  0x00007f37dfa02c55: movabs $0xd2816340,%rdi   ;   {oop([J{0x00000000d2816340})}
+  3.16%    │  0x00007f37dfa02c5f: imul   0x10(%rdi,%r10,8),%r8
+  1.12%    │  0x00007f37dfa02c65: add    %rcx,%r8
+  1.42%    │  0x00007f37dfa02c68: mov    %r8,0x10(%rbx,%r10,8)
+  2.97%    │  0x00007f37dfa02c6d: mov    %r9,%r8
+  2.62%    │  0x00007f37dfa02c70: imul   0x18(%rdi,%r10,8),%r8
+  1.37%    │  0x00007f37dfa02c76: add    %rcx,%r8
+  1.40%    │  0x00007f37dfa02c79: mov    %r8,0x18(%rbx,%r10,8)
+  5.71%    │  0x00007f37dfa02c7e: mov    %r9,%r8
+  2.02%    │  0x00007f37dfa02c81: imul   0x20(%rdi,%r10,8),%r8
+  1.08%    │  0x00007f37dfa02c87: add    %rcx,%r8
+  1.91%    │  0x00007f37dfa02c8a: mov    %r8,0x20(%rbx,%r10,8)
+  4.96%    │  0x00007f37dfa02c8f: mov    %r9,%r8
+  1.57%    │  0x00007f37dfa02c92: imul   0x28(%rdi,%r10,8),%r8
+  0.71%    │  0x00007f37dfa02c98: add    %rcx,%r8
+  0.56%    │  0x00007f37dfa02c9b: mov    %r8,0x28(%rbx,%r10,8)  ;*lastore {reexecute=0 rethrow=0 return_oop=0}
+           │                                                ; - jpountz.PForDeltaDecoder::prefixSumOf@24 (line 29)
+           │                                                ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@32 (line 59)
+           │                                                ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+           │                                                ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  4.79%    │  0x00007f37dfa02ca0: add    $0x4,%r10d         ;*iinc {reexecute=0 rethrow=0 return_oop=0}
+           │                                                ; - jpountz.PForDeltaDecoder::prefixSumOf@25 (line 28)
+           │                                                ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@32 (line 59)
+           │                                                ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+           │                                                ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  1.22%    │  0x00007f37dfa02ca4: cmp    $0x7d,%r10d
+           ╰  0x00007f37dfa02ca8: jl     0x00007f37dfa02c52  ;*if_icmpge {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PForDeltaDecoder::prefixSumOf@8 (line 28)
+                                                            ; - jpountz.PForDeltaDecoder::decodeAndPrefixSum@32 (line 59)
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@42 (line 29)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+  0.07%       0x00007f37dfa02caa: cmp    $0x80,%r10d
+              0x00007f37dfa02cb1: jl     0x00007f37dfa0286c
+              0x00007f37dfa02cb7: jmpq   0x00007f37dfa02893  ;*new {reexecute=0 rethrow=0 return_oop=0}
+                                                            ; - jpountz.PackedIntsDeltaDecodeBenchmark::pForDeltaDecoder@0 (line 28)
+                                                            ; - jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub@151 (line 240)
+              0x00007f37dfa02cbc: movabs $0x80015ae98,%rsi  ;   {metadata(&apos;jpountz/ForUtil&apos;)}
+              0x00007f37dfa02cc6: mov    0x80(%rsp),%rbp
+....................................................................................................
+ 41.43%  <total for region 1>
+
+....[Hottest Region 2]..............................................................................
+ [vdso], [unknown] (108 bytes) 
+
+ <no assembly is recorded, native region>
+....................................................................................................
+ 16.67%  <total for region 2>
+
+....[Hottest Regions]...............................................................................
+ 41.43%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (324 bytes) 
+ 16.67%              [vdso]  [unknown] (108 bytes) 
+  8.45%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (101 bytes) 
+  7.16%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (125 bytes) 
+  5.01%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (165 bytes) 
+  3.61%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (112 bytes) 
+  3.24%   [kernel.kallsyms]  native_write_msr (5 bytes) 
+  2.10%              [vdso]  __vdso_clock_gettime (55 bytes) 
+  1.91%        libc-2.26.so  __clock_gettime (75 bytes) 
+  1.83%              [vdso]  [unknown] (48 bytes) 
+  1.44%           libjvm.so  os::javaTimeNanos (44 bytes) 
+  0.86%         c2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 1366 (75 bytes) 
+  0.79%           libjvm.so  SpinPause (7 bytes) 
+  0.37%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 (26 bytes) 
+  0.34%   [kernel.kallsyms]  entry_SYSCALL_64 (61 bytes) 
+  0.32%   [kernel.kallsyms]  native_queued_spin_lock_slowpath (18 bytes) 
+  0.24%   [kernel.kallsyms]  syscall_return_via_sysret (6 bytes) 
+  0.17%           libjvm.so  G1ScanRSForRegionClosure::scan_rem_set_roots (38 bytes) 
+  0.15%   [kernel.kallsyms]  mutex_unlock (0 bytes) 
+  0.15%           libjvm.so  GenericTaskQueueSet<OverflowTaskQueue<StarTask, (MemoryType)5, 131072u>, (MemoryType)5>::peek (6 bytes) 
+  3.76%  <...other 160 warm regions...>
+....................................................................................................
+100.00%  <totals>
+
+....[Hottest Methods (after inlining)]..............................................................
+ 66.05%         c2, level 4  jpountz.generated.PackedIntsDeltaDecodeBenchmark_pForDeltaDecoder_jmhTest::pForDeltaDecoder_thrpt_jmhStub, version 1424 
+ 18.50%              [vdso]  [unknown] 
+  3.24%   [kernel.kallsyms]  native_write_msr 
+  2.10%              [vdso]  __vdso_clock_gettime 
+  1.91%        libc-2.26.so  __clock_gettime 
+  1.44%           libjvm.so  os::javaTimeNanos 
+  0.86%         c2, level 4  org.openjdk.jmh.infra.Blackhole::consume, version 1366 
+  0.79%           libjvm.so  SpinPause 
+  0.34%   [kernel.kallsyms]  entry_SYSCALL_64 
+  0.32%   [kernel.kallsyms]  native_queued_spin_lock_slowpath 
+  0.26%           libjvm.so  G1ScanRSForRegionClosure::scan_rem_set_roots 
+  0.24%   [kernel.kallsyms]  syscall_return_via_sysret 
+  0.17%           libjvm.so  GenericTaskQueueSet<OverflowTaskQueue<StarTask, (MemoryType)5, 131072u>, (MemoryType)5>::peek 
+  0.15%   [kernel.kallsyms]  mutex_unlock 
+  0.13%           libjvm.so  G1ParEvacuateFollowersClosure::do_void 
+  0.11%   [kernel.kallsyms]  free_pcppages_bulk 
+  0.11%        libc-2.26.so  __memset_avx2_erms 
+  0.09%           libjvm.so  G1ScanRSForRegionClosure::do_heap_region 
+  0.07%   [kernel.kallsyms]  page_remove_rmap 
+  0.07%   [kernel.kallsyms]  __perf_event_task_sched_in 
+  3.05%  <...other 133 warm methods...>
+....................................................................................................
+100.00%  <totals>
+
+....[Distribution by Source]........................................................................
+ 66.91%         c2, level 4
+ 20.59%              [vdso]
+  6.00%   [kernel.kallsyms]
+  3.97%           libjvm.so
+  2.23%        libc-2.26.so
+  0.09%             ext4.ko
+  0.07%         interpreter
+  0.04%      hsdis-amd64.so
+  0.04%  libpthread-2.26.so
+  0.04%          ld-2.26.so
+  0.02%         c1, level 3
+....................................................................................................
+100.00%  <totals>
+
+
+
+# Run complete. Total time: 00:00:34
+
+REMEMBER: The numbers below are just data. To gain reusable insights, you need to follow up on
+why the numbers are the way they are. Use profilers (see -prof, -lprof), design factorial
+experiments, perform baseline and negative tests that provide experimental control, make sure
+the benchmarking environment is safe on JVM/OS/HW level, ask for reviews from the domain experts.
+Do not assume the numbers tell you what you want them to tell.
+
+Benchmark                                             (bitsPerValue)  (exceptionCount)  (sameVal)   Mode  Cnt  Score   Error   Units
+PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder                    0                 0          1  thrpt    5  8.829 ± 0.045  ops/us
+PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder:·asm               0                 0          1  thrpt         NaN             ---
+PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder                    0                 0          2  thrpt    5  7.165 ± 0.217  ops/us
+PackedIntsDeltaDecodeBenchmark.pForDeltaDecoder:·asm               0                 0          2  thrpt         NaN             ---
