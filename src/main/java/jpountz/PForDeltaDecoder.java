@@ -9,12 +9,10 @@ final class PForDeltaDecoder {
 
     // IDENTITY_PLUS_ONE[i] == i+1
     private static final long[] IDENTITY_PLUS_ONE = new long[ForUtil.BLOCK_SIZE];
-    private static final long[] IDENTITY_PLUS_TWO = new long[ForUtil.BLOCK_SIZE];
 
     static {
         for (int i = 0; i < ForUtil.BLOCK_SIZE; ++i) {
             IDENTITY_PLUS_ONE[i] = i + 1;
-            IDENTITY_PLUS_TWO[i] = (i + 1) * 2;
         }
     }
 
@@ -27,7 +25,10 @@ final class PForDeltaDecoder {
     }
 
     private static void prefixSumOf(long val, long[] arr, long base) {
-        System.arraycopy(IDENTITY_PLUS_TWO, 0, arr, 0, ForUtil.BLOCK_SIZE);
+        System.arraycopy(IDENTITY_PLUS_ONE, 0, arr, 0, ForUtil.BLOCK_SIZE);
+        for (int i = 0; i < ForUtil.BLOCK_SIZE; i++) {
+            arr[i] *= val;
+        }
         for (int i = 0; i < ForUtil.BLOCK_SIZE; i++) {
             arr[i] += base;
         }
